@@ -1,0 +1,5 @@
+.idea
+*.cfg
+*.json
+*.xmind
+venv/
