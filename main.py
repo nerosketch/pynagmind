@@ -73,7 +73,7 @@ def write_hub_to_conf(f, host_name, real_name, parents):
         "\tuse				hub",
         "\tdisplay_name	%s" % _norm_display_name(real_name),
         "\thost_name		%s" % host_name,
-        "\tparents			%s" % parents,
+        "\tparents			%s" % parents if parents is not None else None,
         "}\n"
     ]
     f.write('\n'.join(i for i in cmds if i))
@@ -89,7 +89,7 @@ def write_node_to_conf(f, host_name, real_name, ip_addr, parents, ip_pattern=re.
         "\tdisplay_name	%s" % _norm_display_name(real_name),
         "\thost_name		%s" % host_name,
         "\taddress			%s" % ip_addr,
-        "\tparents			%s" % parents,
+        "\tparents			%s" % parents if parents is not None else None,
         "}\n"
     ]
     f.write('\n'.join(i for i in cmds if i))
@@ -114,6 +114,11 @@ def parse_node(f, topics: list, parent_device: str):
                 )
             else:
                 print(title, 'has no ip')
+                write_hub_to_conf(
+                    f, host_name=translit_label,
+                    real_name=title,
+                    parents=parent_device
+                )
         else:
             write_hub_to_conf(
                 f, host_name=translit_label,
